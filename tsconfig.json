@@ -1,0 +1,21 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "target": "es5",
+    "types": ["leaflet", "nvd3"],
+    "typeRoots": [
+      "node_modules/@types",
+      "leaflet"
+    ],
+    "lib": [
+      "es2017",
+      "dom"
+    ]
+  }
+}

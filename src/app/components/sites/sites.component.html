@@ -1,0 +1,188 @@
+<div *ngIf="!accessRightsService.canView('sites')" class="alert alert-danger">
+  <strong>Access Denied!</strong><br/> You don't have permissions to View this page.
+</div>
+<ngb-tabset *ngIf="accessRightsService.canView('sites')" #table="ngbTabset">
+  <ngb-tab id="sitelist">
+    <ng-template ngbTabTitle><i class="fa fa-bars" aria-hidden="true"></i></ng-template>
+    <ng-template ngbTabContent>
+      <br/><br/>
+      <app-site-detail [site]="selectedSite" [projects]="projects"></app-site-detail>
+      <mat-form-field>
+        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+      </mat-form-field>
+      <div class="site-container mat-elevation-z8">
+
+        <mat-table [dataSource]="dataSource" matSort>
+
+          <!-- ID Column -->
+          <ng-container matColumnDef="name">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
+            <mat-cell *matCellDef="let site"> {{site.name}} </mat-cell>
+          </ng-container>
+
+          <!-- ID Column -->
+          <ng-container matColumnDef="street">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Street </mat-header-cell>
+            <mat-cell *matCellDef="let site"> {{site.address.street}} </mat-cell>
+          </ng-container>
+
+          <!-- ID Column -->
+          <ng-container matColumnDef="zip_code">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Zip code </mat-header-cell>
+            <mat-cell *matCellDef="let site"> {{site.address.zip_code}} </mat-cell>
+          </ng-container>
+
+          <!-- ID Column -->
+          <ng-container matColumnDef="city">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> City </mat-header-cell>
+            <mat-cell *matCellDef="let site"> {{site.address.city}} </mat-cell>
+          </ng-container>
+
+          <!-- ID Column -->
+          <ng-container matColumnDef="state">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> State </mat-header-cell>
+            <mat-cell *matCellDef="let site"> {{site.address.state}} </mat-cell>
+          </ng-container>
+
+          <!-- ID Column -->
+          <ng-container matColumnDef="type">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Type </mat-header-cell>
+            <mat-cell *matCellDef="let site"> {{site.type}} </mat-cell>
+          </ng-container>
+
+          <!-- ID Column -->
+          <ng-container matColumnDef="actions">
+            <mat-header-cell *matHeaderCellDef mat-sort-header></mat-header-cell>
+            <mat-cell *matCellDef="let site">
+              <button class="delete" title="delete site"
+                      *ngIf="accessRightsService.canEdit('sites')"
+                      (click)="delete(site)"><i class="fa fa-trash-o" aria-hidden="true"></i>
+              </button>
+            </mat-cell>
+          </ng-container>
+
+
+
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let site; columns: displayedColumns;" (click)="onSelect(site)" [class.selected]="site === selectedSite">
+          </mat-row>
+        </mat-table>
+
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+      </div>
+    </ng-template>
+  </ngb-tab>
+  <ngb-tab id="siteadd" *ngIf="accessRightsService.canEdit('sites')">
+    <ng-template ngbTabTitle><i class="fa fa-plus" aria-hidden="true"></i></ng-template>
+    <ng-template ngbTabContent>
+      <br/><br/>
+      <div class="col-lg-8">
+        <div class="row">
+          <mat-card>
+            <form>
+              <mat-card-header>
+                <mat-card-title class="col-lg-12 title-site">
+                  NEW SITE
+                </mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <div class="col-lg-12">
+
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <label>Site  Name</label>
+                    </div>
+                    <div class="col-lg-6">
+                      <label>Type</label>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <mat-form-field>
+                        <input matInput name="name" [(ngModel)]="newSite.name">
+                      </mat-form-field>
+                    </div>
+                    <div class="col-lg-6">
+                      <mat-form-field>
+                        <mat-select matInput name="type" [(ngModel)]="newSite.type">
+                          <mat-option *ngFor="let sitetype of sitetypes" [value]="sitetype.value">
+                            {{sitetype.viewValue}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <label>Address</label>
+                    </div>
+                    <div class="col-lg-4">
+                      <label>Project</label>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <mat-form-field>
+                        <input matInput name="street" [(ngModel)]="newSite.address.street">
+                      </mat-form-field>
+                    </div>
+                    <div class="col-lg-6">
+                      <mat-form-field>
+                        <mat-select matInput [(ngModel)]="newSite.project_uid" name="projectUid" >
+                          <mat-option *ngFor="let project of projects" [value]="project.id">
+                            {{project.name}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <label>Zip code</label>
+                    </div>
+                    <div class="col-lg-6">
+                      <label>City</label>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <mat-form-field>
+                        <input matInput name="zip_code" [(ngModel)]="newSite.address.zip_code">
+                      </mat-form-field>
+                    </div>
+                    <div class="col-lg-6">
+                      <mat-form-field>
+                        <input matInput name="city" [(ngModel)]="newSite.address.city">
+                      </mat-form-field>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <label>State</label>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <mat-form-field>
+                        <input matInput name="state" [(ngModel)]="newSite.address.state">
+                      </mat-form-field>
+                    </div>
+                  </div>
+
+                  <app-mapview [options]="mapOptions"></app-mapview>
+                  <br/><br/>
+
+                </div>
+              </mat-card-content>
+              <mat-card-actions class="text-right">
+                <button mat-raised-button class="button-form" *ngIf="accessRightsService.canEdit('sites')" style="margin-right: 35px" (click)="add(newSite)">SAVE</button>
+              </mat-card-actions>
+            </form>
+          </mat-card>
+        </div>
+      </div>
+    </ng-template>
+  </ngb-tab>
+</ngb-tabset>

@@ -1,0 +1,60 @@
+.list-box {
+  height:250px;
+  overflow:auto;
+}
+
+.project-box {
+  margin-bottom: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  height: 80px;
+  overflow:auto;
+}
+
+.sites-box {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  height:340px;
+  overflow:auto;
+}
+
+.users-box {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-left: 10px;
+  height:340px;
+  overflow:auto;
+}
+
+.active {
+  background-color: whitesmoke;
+}
+
+.row.vdivide [class*='col-']:not(:last-child):after {
+  background: #e0e0e0;
+  width: 1px;
+  content: "";
+  display:block;
+  position: absolute;
+  top:0;
+  bottom: 0;
+  right: 0;
+  min-height: 70px;
+}
+
+.hdivide {
+  height: 1px;
+  width:100%;
+  display:block; /* for use on default inline elements like span */
+  margin: 9px 0;
+  overflow: hidden;
+  background-color: #e5e5e5;
+}
+
+.button-form{
+  background-color: #25AAE1;
+  color: white;
+}
+.button-form:hover{
+  background-color: #1A6B84;
+}

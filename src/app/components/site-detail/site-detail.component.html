@@ -1,0 +1,91 @@
+<div class="row">
+  <div class="col-lg-12" *ngIf="site">
+    <mat-card class="col-lg-12">
+      <mat-card-content class="row">
+        <div class="col-lg-10">
+
+          <div class="row">
+            <div class="col-lg-4">
+              <label>Name</label>
+            </div>
+            <div class="col-lg-4">
+              <label>Type</label>
+            </div>
+            <div class="col-lg-4">
+              <label>Project</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-4">
+              <mat-form-field>
+                <input matInput [(ngModel)]="site.name" name="name" >
+              </mat-form-field>
+            </div>
+            <div class="col-lg-4">
+              <mat-form-field>
+                <mat-select matInput [(ngModel)]="site.type" name="type" >
+                  <mat-option *ngFor="let sitetype of sitetypes" [value]="sitetype.value">
+                    {{sitetype.viewValue}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-lg-4">
+              <mat-form-field>
+                <mat-select matInput [(ngModel)]="site.project_uid" name="projectUid" >
+                  <mat-option *ngFor="let project of projects" [value]="project.id">
+                    {{project.name}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-lg-3">
+              <label>Address</label>
+            </div>
+            <div class="col-lg-3">
+              <label>Zip code</label>
+            </div>
+            <div class="col-lg-3">
+              <label>City</label>
+            </div>
+            <div class="col-lg-3">
+              <label>State</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-3">
+              <mat-form-field>
+                <input matInput [(ngModel)]="site.address.street" name="street">
+              </mat-form-field>
+            </div>
+            <div class="col-lg-3">
+              <mat-form-field>
+                <input matInput [(ngModel)]="site.address.zip_code" name="zip_code">
+              </mat-form-field>
+            </div>
+            <div class="col-lg-3">
+              <mat-form-field>
+                <input matInput [(ngModel)]="site.address.city" name="city">
+              </mat-form-field>
+            </div>
+            <div class="col-lg-3">
+              <mat-form-field>
+                <input matInput [(ngModel)]="site.address.state" name="state">
+              </mat-form-field>
+            </div>
+          </div>
+
+          <br/><br/>
+
+        </div>
+      </mat-card-content>
+      <mat-card-actions class="text-right">
+        <button mat-raised-button class="button-form" style="margin-right: 35px" *ngIf="accessRightsService.canEdit('sites')" (click)="save();">SAVE</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>
+<br/>

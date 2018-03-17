@@ -1,0 +1,171 @@
+<div *ngIf="!accessRightsService.canView('accessRights')" class="alert alert-danger">
+  <strong>Access Denied!</strong><br/> You don't have permissions to View this page.
+</div>
+<div *ngIf="accessRightsService.canView('accessRights')" class="col-md-12">
+  <div class="row">
+    <div class="col-xs-4">
+        <mat-card class="sites-box">
+          <div class="row">
+            <h4 style="padding-left: 15px;">Projects</h4>
+            <mat-form-field style="padding-left: 10%">
+              <mat-select [(ngModel)]="selectedProject" name="projects" (selectionChange)="selectProject()">
+                <mat-option *ngFor="let project of projects" [value]="project">
+                  {{project.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <span class="hdivide"></span>
+          <div class="row">
+            <h4 style="padding-left: 15px;">Sites</h4>
+            <mat-selection-list *ngIf="isSitesAvailable()">
+              <mat-list-option [selected]="AllSitesSelected"
+                               (click)="toggleAll()">
+                All
+              </mat-list-option>
+              <mat-list-option *ngFor="let site of sites; let i = index"
+                               [selected]="site.selected"
+                               (click)="toggleSelection(i)">
+                {{ site.name }}
+              </mat-list-option>
+            </mat-selection-list>
+          </div>
+        </mat-card>
+    </div>
+    <div class="col-xs-8">
+        <mat-card class="users-box">
+          <div class="row">
+            <div class="col-sm-6"><h4>User Types</h4></div>
+            <div class="col-sm-6"><h4>Users</h4></div>
+          </div>
+          <div class="row vdivide">
+            <div class="col-sm-6">
+              <mat-nav-list class="list-box">
+                <mat-list-item *ngFor="let userType of userTypes"
+                               (click)="selectUserType(userType)"
+                               [class.active]="selectedUserType == userType">
+                  <a matLine href="javascript:">{{ userType.nametype }}</a>
+                  <button mat-icon-button (click)="selectUserType(userType)">
+                    <mat-icon>></mat-icon>
+                  </button>
+                </mat-list-item>
+              </mat-nav-list>
+            </div>
+            <div class="col-sm-6">
+              <mat-selection-list *ngIf="selectedUserType && users && users.length" class="list-box">
+                <mat-list-option [selected]="AllUsersSelected" (click)="toggleAllUsers()">
+                  All
+                </mat-list-option>
+                <mat-list-option *ngFor="let user of users; let i = index"
+                                 [selected]="user.selected"
+                                 (click)="toggleSelectionUsers(i)">
+                  {{ user.first_name }} {{ user.last_name }}
+                </mat-list-option>
+              </mat-selection-list>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+  </div>
+  <div class="row" style="margin-top: 3%">
+    <div class="col-sm-12">
+        <mat-card>
+          <div class="row">
+            <div class="col-sm-4"><h3>Filters</h3></div>
+            <div class="col-sm-8">
+              <h3>
+                Manage Access Rights
+                <button mat-raised-button *ngIf="accessRightsService.canEdit('accessRights')" class="button-form push-right" (click)="saveRights()" [disabled]="!areRightsSitesSelected()" >SAVE</button>
+              </h3>
+            </div>
+          </div>
+          <div class="row vdivide">
+            <div class="col-sm-4">
+              <div class="row">
+                <form class="example-form" style="padding-left: 10%">
+                  <h4>Select User</h4>
+                  <mat-form-field class="example-full-width">
+                    <input matInput placeholder="Search for a specific user" aria-label="user" [matAutocomplete]="auto" [formControl]="usersCtrl">
+                    <mat-autocomplete #auto="matAutocomplete">
+                      <mat-option *ngFor="let user of filteredUsers" [value]="user.username" (click)="selectSpecificUser(user)">
+                        <img style="vertical-align:middle;" aria-hidden *ngIf="user?.picture" [src]="baseUrl + user?.picture" height="25" />
+                        <img style="vertical-align:middle;" aria-hidden *ngIf="!user?.picture" src="./../../../assets/noavatar.png" height="25" />
+                        <span>
+                          {{ user.username }}
+                        </span>
+                      </mat-option>
+                    </mat-autocomplete>
+                  </mat-form-field>
+                  <hr>
+                </form>
+              </div>
+              <div class="row">
+                <mat-form-field style="padding-left: 10%">
+                  <mat-select placeholder="Projects"
+                              [(ngModel)]="selectedRightsProject"
+                              name="projectsRights"
+                              (selectionChange)="selectRightsProject()"
+                              [disabled]="!areUsersSelected()">
+                    <mat-option *ngFor="let project of projects" [value]="project">
+                      {{project.name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="row">
+                <h4 style="padding-left: 10%">Sites</h4>
+                <mat-selection-list *ngIf="isRightsSitesAvailable()">
+                  <mat-list-option [selected]="AllRightsSitesSelected"
+                                   (click)="toggleAllRightsSite()">
+                    All
+                  </mat-list-option>
+                  <mat-list-option *ngFor="let site of siteRights; let i = index"
+                                   [selected]="site.selected"
+                                   (click)="toggleRightsSelection(i)">
+                    {{ site.name }}
+                  </mat-list-option>
+                </mat-selection-list>
+              </div>
+            </div>
+            <div class="col-sm-8">
+              <mat-grid-list cols="3" rowHeight="3:1">
+                <mat-grid-tile>Module</mat-grid-tile>
+                <mat-grid-tile>View</mat-grid-tile>
+                <mat-grid-tile>Edit</mat-grid-tile>
+
+                <mat-grid-tile><strong>All</strong></mat-grid-tile>
+                <mat-grid-tile>
+                  <mat-checkbox [(ngModel)]="toggleAllViewRights"
+                                (click)="toggleAllRights('view', toggleAllViewRights)"
+                                [disabled]="!areRightsSitesSelected()">
+                  </mat-checkbox>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                  <mat-checkbox [(ngModel)]="toggleAllEditRights"
+                                (click)="toggleAllRights('edit', toggleAllEditRights)"
+                                [disabled]="!areRightsSitesSelected()">
+                  </mat-checkbox>
+                </mat-grid-tile>
+
+
+          <span *ngFor="let accessRight of accessRights">
+            <mat-grid-tile class="text-left"><strong>{{accessRight.name}}</strong></mat-grid-tile>
+            <mat-grid-tile>
+              <mat-checkbox [(ngModel)]="selectedRights[accessRight.viewName]"
+                            [disabled]="!areRightsSitesSelected()">
+              </mat-checkbox>
+            </mat-grid-tile>
+            <mat-grid-tile>
+              <mat-checkbox [(ngModel)]="selectedRights[accessRight.editName]"
+                            (click)="toggleEditRight(accessRight, selectedRights[accessRight.editName])"
+                            [disabled]="!areRightsSitesSelected()">
+              </mat-checkbox>
+            </mat-grid-tile>
+          </span>
+              </mat-grid-list>
+            </div>
+          </div>
+        </mat-card>
+    </div>
+  </div>
+</div>
