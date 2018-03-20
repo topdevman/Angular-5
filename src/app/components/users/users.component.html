@@ -1,0 +1,200 @@
+<div *ngIf="!accessRightsService.canView('users')" class="alert alert-danger">
+  <strong>Access Denied!</strong><br/> You don't have permissions to View this page.
+</div>
+<ngb-tabset *ngIf="accessRightsService.canView('users')" #table="ngbTabset">
+  <ngb-tab id="userlist">
+    <ng-template ngbTabTitle><i class="fa fa-bars" aria-hidden="true"></i></ng-template>
+    <ng-template ngbTabContent>
+      <br/><br/>
+      <app-user-detail [user]="selectedUser" [imageUrl]="imageUrl"></app-user-detail>
+      <mat-form-field>
+        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+      </mat-form-field>
+      <div class="user-container mat-elevation-z8">
+
+        <mat-table [dataSource]="dataSource" matSort>
+
+          <!-- ID Column -->
+          <ng-container matColumnDef="username">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Username </mat-header-cell>
+            <mat-cell *matCellDef="let user"> {{user.username}} </mat-cell>
+          </ng-container>
+
+          <!-- ID Column -->
+          <ng-container matColumnDef="first_name">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> First name </mat-header-cell>
+            <mat-cell *matCellDef="let user"> {{user.first_name}} </mat-cell>
+          </ng-container>
+
+          <!-- ID Column -->
+          <ng-container matColumnDef="last_name">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Last name </mat-header-cell>
+            <mat-cell *matCellDef="let user"> {{user.last_name}} </mat-cell>
+          </ng-container>
+
+          <!-- ID Column -->
+          <ng-container matColumnDef="entitle">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Tittle En </mat-header-cell>
+            <mat-cell *matCellDef="let user"> {{user.entitle}} </mat-cell>
+          </ng-container>
+
+          <!-- ID Column -->
+          <ng-container matColumnDef="usertype">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> User type </mat-header-cell>
+            <mat-cell *matCellDef="let user"> {{user.usertype}} </mat-cell>
+          </ng-container>
+
+          <!-- ID Column -->
+          <ng-container matColumnDef="zonerights">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Zones allowed </mat-header-cell>
+            <mat-cell *matCellDef="let user"> {{user.zonerights}} </mat-cell>
+          </ng-container>
+
+          <!-- ID Column -->
+          <ng-container matColumnDef="street">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Address </mat-header-cell>
+            <mat-cell *matCellDef="let user"> {{user.address.street}} </mat-cell>
+          </ng-container>
+
+          <!-- ID Column -->
+          <ng-container matColumnDef="zip_code">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Zip code </mat-header-cell>
+            <mat-cell *matCellDef="let user"> {{user.address.zip_code}} </mat-cell>
+          </ng-container>
+
+          <!-- ID Column -->
+          <ng-container matColumnDef="city">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> City </mat-header-cell>
+            <mat-cell *matCellDef="let user"> {{user.address.city}} </mat-cell>
+          </ng-container>
+
+          <!-- ID Column -->
+          <ng-container matColumnDef="state">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> State </mat-header-cell>
+            <mat-cell *matCellDef="let user"> {{user.address.state}} </mat-cell>
+          </ng-container>
+
+          <!-- ID Column -->
+          <ng-container matColumnDef="actions">
+            <mat-header-cell *matHeaderCellDef mat-sort-header></mat-header-cell>
+            <mat-cell *matCellDef="let user">
+              <button class="delete" title="delete user" *ngIf="accessRightsService.canEdit('users')"
+                      (click)="delete(user)"><i class="fa fa-trash-o" aria-hidden="true"></i>
+              </button>
+            </mat-cell>
+          </ng-container>
+
+
+
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let user; columns: displayedColumns;" (click)="onSelect(user)" [class.selected]="user === selectedUser">
+          </mat-row>
+        </mat-table>
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+      </div>
+    </ng-template>
+  </ngb-tab>
+  <ngb-tab id="useradd" *ngIf="accessRightsService.canEdit('users')">
+    <ng-template ngbTabTitle><i class="fa fa-plus" aria-hidden="true"></i></ng-template>
+    <ng-template ngbTabContent>
+      <br/>
+      <br/>
+      <div class="col-lg-12">
+        <div class="col-lg-12">
+          <mat-card>
+            <form class="user-form">
+              <mat-card-header>
+                <mat-card-title class="col-lg-12 title-user">NEW USER</mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                  <div class="row">
+                    <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+                      <strong>Error: {{errorMessage}}</strong>
+                    </div>
+                    <div class="col-lg-3 avatar text-center">
+                      <img *ngIf="!newUser?.picture" src="./../../../assets/noavatar.png" width="150" style="padding-bottom: 5%">
+                      <img *ngIf="newUser?.picture"  [src]="baseUrl + newUser?.picture" style="padding-bottom: 5%"><br />
+                      <button mat-raised-button class="button-form" (click)="openDialog()">Add Avatar</button>
+                    </div>
+                    <div class="col-lg-8">
+                      <table class="user-full-width" cellspacing="0">
+                        <tr>
+                          <td><mat-form-field class="user-full-width">
+                            <input matInput placeholder="First name" name="firstname" [(ngModel)]="newUser.first_name">
+                          </mat-form-field></td>
+                          <td><mat-form-field class="user-full-width">
+                            <input matInput placeholder="Last Name" name="lastname" [(ngModel)]="newUser.last_name">
+                          </mat-form-field></td>
+                        </tr>
+                      </table>
+                      <table class="user-full-width" cellspacing="0">
+                        <tr>
+                          <td><mat-form-field class="user-full-width">
+                            <input matInput placeholder="Username" name="username" [(ngModel)]="newUser.username"
+                                   required>
+                            <mat-hint>Please enter a valid email address!</mat-hint>
+                          </mat-form-field></td>
+                          <td><mat-form-field class="user-full-width">
+                            <mat-select name="site_id" [(ngModel)]="newUser.site_id" placeholder="Associated Site">
+                              <mat-option *ngFor="let site of associatedSites" [value]="site?.id">
+                                {{ site?.name }}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field></td>
+                        </tr>
+                      </table>
+                      <table class="user-full-width" cellspacing="0">
+                        <tr>
+                          <td><mat-form-field class="user-full-width">
+                            <mat-select name="usertype" [(ngModel)]="newUser.usertype" placeholder="User Type">
+                              <mat-option *ngFor="let usertype of userTypes" [value]="usertype?.nametype">
+                                {{ usertype?.nametype }}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field></td>
+                          <td><mat-form-field *ngIf="newUser.usertype == 'Manager'" class="user-full-width">
+                            <mat-select name="siteright" [(ngModel)]="newUser.siteright" placeholder="Site">
+                              <mat-option *ngFor="let site of sites" [value]="site?.name">
+                                {{ site?.name }}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                            <mat-form-field *ngIf="['Admin', 'Supervisor'].indexOf(newUser.usertype) > -1" class="user-full-width">
+                              <mat-select name="teamright" [(ngModel)]="newUser.teamright" placeholder="Team">
+                                <mat-option *ngFor="let team of teams" [value]="team?.typeteam">
+                                  {{ team?.typeteam }}
+                                </mat-option>
+                              </mat-select>
+                            </mat-form-field></td>
+                        </tr>
+                      </table>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <table class="user-full-width" cellspacing="0"><tr>
+                      <td><mat-form-field class="user-full-width">
+                        <input matInput placeholder="Address" name="street" [(ngModel)]="newUser.address.street">
+                      </mat-form-field></td></tr>
+                      <tr>
+                      <td><mat-form-field class="user-full-width">
+                        <input matInput placeholder="City" name="city" [(ngModel)]="newUser.address.city">
+                      </mat-form-field></td>
+                      <td><mat-form-field class="user-full-width">
+                        <input matInput placeholder="State" name="state" [(ngModel)]="newUser.address.state">
+                      </mat-form-field></td>
+                      <td><mat-form-field class="user-full-width">
+                        <input matInput maxlength="5" placeholder="Zip Code" name="zip_code" [(ngModel)]="newUser.address.zip_code">
+                      </mat-form-field></td>
+                    </tr></table>
+                  </div>
+              </mat-card-content>
+              <mat-card-actions class="text-right">
+                <button mat-raised-button class="button-form" style="margin-right: 35px" (click)="add();">SAVE</button>
+              </mat-card-actions>
+            </form>
+          </mat-card>
+        </div>
+      </div>
+    </ng-template>
+  </ngb-tab>
+</ngb-tabset>
