@@ -1,0 +1,92 @@
+<div class="row">
+  <div class="col-lg-12" *ngIf="user">
+      <mat-card>
+        <form class="user-form">
+          <mat-card-content>
+            <div class="row">
+              <div class="col-lg-3 avatar text-center">
+                <img *ngIf="!imageUrl && !user?.picture" src="./../../../assets/noavatar.png" width="150" style="padding-bottom: 5%">
+                <img *ngIf="!imageUrl && user?.picture"  [src]="baseUrl + user?.picture" style="padding-bottom: 5%">
+                <img *ngIf="imageUrl"  [src]="baseUrl + imageUrl" style="padding-bottom: 5%"><br />
+                <button mat-raised-button class="button-form" *ngIf="accessRightsService.canEdit('users')" (click)="openDialog()">Edit Avatar</button>
+              </div>
+              <div class="col-lg-8">
+                <table class="user-full-width" cellspacing="0">
+                  <tr>
+                    <td><mat-form-field class="user-full-width">
+                      <input matInput placeholder="First name" name="firstname" [(ngModel)]="user.first_name">
+                    </mat-form-field></td>
+                    <td><mat-form-field class="user-full-width">
+                      <input matInput placeholder="Last Name" name="lastname" [(ngModel)]="user.last_name">
+                    </mat-form-field></td>
+                  </tr>
+                </table>
+                <table class="user-full-width" cellspacing="0">
+                  <tr>
+                    <td><mat-form-field class="user-full-width">
+                      <input matInput placeholder="Username" name="username" [(ngModel)]="user.username">
+                    </mat-form-field></td>
+                    <td>
+                    <td><mat-form-field class="user-full-width">
+                      <mat-select name="site_id" [(ngModel)]="user.site_id" placeholder="Associated Site">
+                        <mat-option *ngFor="let site of associatedSites" [value]="site?.id">
+                          {{ site?.name }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                    </td>
+                  </tr>
+                </table>
+                <table class="user-full-width" cellspacing="0">
+                  <tr>
+                    <td><mat-form-field class="user-full-width">
+                      <mat-select name="usertype" [(ngModel)]="user.usertype" placeholder="User Type">
+                        <mat-option *ngFor="let usertype of userTypes" [value]="usertype?.nametype">
+                          {{ usertype?.nametype }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field></td>
+                    <td><mat-form-field *ngIf="user.usertype == 'Manager'" class="user-full-width">
+                      <mat-select name="siteright" [(ngModel)]="user.siteright" placeholder="Site">
+                        <mat-option *ngFor="let site of sites" [value]="site?.name">
+                          {{ site?.name }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                      <mat-form-field *ngIf="['Admin', 'Supervisor'].indexOf(user.usertype) > -1" class="user-full-width">
+                        <mat-select name="teamright" [(ngModel)]="user.teamright" placeholder="Team">
+                          <mat-option *ngFor="let team of teams" [value]="team?.typeteam">
+                            {{ team?.typeteam }}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field></td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+            <div class="row">
+              <table class="user-full-width" cellspacing="0"><tr>
+                <td><mat-form-field class="user-full-width">
+                  <input matInput placeholder="Address" name="street" [(ngModel)]="user.address.street">
+                </mat-form-field></td></tr>
+                <tr>
+                  <td><mat-form-field class="user-full-width">
+                    <input matInput placeholder="City" name="city" [(ngModel)]="user.address.city">
+                  </mat-form-field></td>
+                  <td><mat-form-field class="user-full-width">
+                    <input matInput placeholder="State" name="state" [(ngModel)]="user.address.state">
+                  </mat-form-field></td>
+                  <td><mat-form-field class="user-full-width">
+                    <input matInput maxlength="5" placeholder="Zip Code" name="zip_code" [(ngModel)]="user.address.zip_code">
+                  </mat-form-field></td>
+                </tr></table>
+            </div>
+          </mat-card-content>
+          <mat-card-actions>
+            <button mat-raised-button class="button-form" *ngIf="accessRightsService.canEdit('users')" style="float: right; margin-right: 35px" (click)="save();">SAVE</button>
+          </mat-card-actions>
+        </form>
+      </mat-card>
+  </div>
+</div>
+<br/>
