@@ -1,0 +1,60 @@
+<!-- Sidebar Holder -->
+<nav id="sidebar">
+  <div class="sidebar-header">
+    <h3><img src="assets/datategy.png" width="100%" alt="Datategy"></h3>
+    <strong>DG</strong>
+  </div>
+
+  <ul class="list-unstyled components" *ngIf="authService.loggedIn();else notLoggedIn">
+    <li [routerLinkActive]="['active']" [routerLinkActiveOptions] = "{exact:true}">
+      <a [routerLink]="['map']">
+        <i class="glyphicon glyphicon-dashboard"></i>
+        General View
+      </a>
+    </li>
+    <li [routerLinkActive]="['active']" [routerLinkActiveOptions] = "{exact:true}">
+      <a [routerLink]="['chart']">
+        <i class="glyphicon glyphicon-stats"></i>
+        Charts
+      </a>
+    </li>
+    <li [routerLinkActive]="['active']" [routerLinkActiveOptions] = "{exact:true}">
+      <a [routerLink]="['membership']">
+        <i class="glyphicon glyphicon-user"></i>
+        Membership
+      </a>
+    </li>
+    <li [routerLinkActive]="['active']" [routerLinkActiveOptions] = "{exact:true}">
+      <a [routerLink]="['product']">
+        <i class="glyphicon glyphicon-duplicate"></i>
+        Products
+      </a>
+    </li>
+    <li [routerLinkActive]="['active']" [routerLinkActiveOptions] = "{exact:true}">
+      <a [routerLink]="['job']">
+        <i class="glyphicon glyphicon-list"></i>
+        Administration
+      </a>
+    </li>
+    <li>
+      <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false">
+        <i class="glyphicon glyphicon-wrench"></i>
+        Setup
+      </a>
+      <ul class="collapse list-unstyled" id="pageSubmenu">
+        <li *ngIf="accessRightsService.canView('users')" [routerLinkActive]="['active']" [routerLinkActiveOptions] = "{exact:true}"><a class="any" [routerLink]="['user']"><img src="assets/user.png">&nbsp;&nbsp;&nbsp;Employee</a></li>
+        <li *ngIf="accessRightsService.canView('projects')" [routerLinkActive]="['active']" [routerLinkActiveOptions] = "{exact:true}"><a class="any" [routerLink]="['project']"><img src="assets/project.png">&nbsp;&nbsp;&nbsp;Project</a></li>
+        <li *ngIf="accessRightsService.canView('sites')" [routerLinkActive]="['active']" [routerLinkActiveOptions] = "{exact:true}"><a class="any" [routerLink]="['site']"><img src="assets/site.png">&nbsp;&nbsp;&nbsp;Site</a></li>
+        <li *ngIf="accessRightsService.canView('zones')" [routerLinkActive]="['active']" [routerLinkActiveOptions] = "{exact:true}"><a class="any" [routerLink]="['zone']"><img src="assets/zone.png">&nbsp;&nbsp;&nbsp;Zone</a></li>
+        <li *ngIf="accessRightsService.canView('vehicles')" [routerLinkActive]="['active']" [routerLinkActiveOptions] = "{exact:true}"><a class="any" [routerLink]="['vehicle']"><img src="assets/vehicle.png">&nbsp;&nbsp;&nbsp;Vehicle</a></li>
+        <li *ngIf="accessRightsService.canView('teams')" [routerLinkActive]="['active']" [routerLinkActiveOptions] = "{exact:true}"><a class="any" [routerLink]="['team']"><img src="assets/team.png">&nbsp;&nbsp;&nbsp;Team</a></li>
+        <li *ngIf="accessRightsService.canView('accessRights')" [routerLinkActive]="['active']" [routerLinkActiveOptions] = "{exact:true}"><a class="any" [routerLink]="['rights']">Rights</a></li>
+      </ul>
+    </li>
+  </ul>
+
+  <ul class="list-unstyled CTAs">
+    <small>Copyright © Datategy 2017</small>
+  </ul>
+</nav>
+
