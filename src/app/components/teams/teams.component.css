@@ -1,0 +1,25 @@
+.input-full-width {
+    width: 100%;
+}
+
+.input-selector-container {
+  min-height:150px !important;
+}
+
+.no-margin {
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+.my-2 {
+  margin-top: .5%;
+  margin-bottom: .5%;
+}
+
+.button-form{
+  background-color: #25AAE1;
+  color: white;
+}
+.button-form:hover{
+  background-color: #1A6B84;
+}

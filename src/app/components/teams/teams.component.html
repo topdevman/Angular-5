@@ -1,0 +1,108 @@
+<div *ngIf="!accessRightsService.canView('teams')" class="alert alert-danger">
+  <strong>Access Denied!</strong><br/> You don't have permissions to View this page.
+</div>
+<div *ngIf="accessRightsService.canView('teams')" class="col-lg-12">
+
+  <div class="row">
+    <div class="col-sm-12 text-right my-2">
+      <button mat-raised-button class="button-form" *ngIf="accessRightsService.canEdit('teams')" (click)="submitChanges()" >SAVE</button>
+    </div>
+
+    <div class="col-sm-12">
+      <mat-accordion class="example-headers-align">
+        <div class="row">
+          <div class="col-sm-6 my-2">
+            <mat-card class="input-selector-container">
+              <mat-card-content>
+                <mat-form-field style=" width: 70%;">
+                  <mat-select placeholder="User Types"
+                              class="input-full-width"
+                              [(ngModel)]="selectedUserType"
+                              name="selectedUserType"
+                              (change)="toTeamSection()">
+                    <mat-option *ngFor="let userType of userTypes"
+                                [value]="userType">
+                      {{ userType.nametype }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </mat-card-content>
+            </mat-card>
+          </div>
+          <div class="col-sm-6 my-2">
+            <mat-card class="input-selector-container">
+              <mat-card-content>
+                <mat-form-field style=" width: 70%;" *ngIf="teamMode == 'select'">
+                  <mat-select placeholder="Teams"
+                              class="input-full-width"
+                              [(ngModel)]="selectedTeam"
+                              name="selectedTeam"
+                              [disabled]="!selectedUserType?.nametype"
+                              (change)="showTeamInfo(selectedTeam)">
+                    <mat-option *ngFor="let team of teams"
+                                [value]="team">
+                      {{ team.id }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field style=" width: 70%;" *ngIf="teamMode == 'add'">
+                  <input matInput [(ngModel)]="teamName"
+                         placeholder="Create New Team"
+                         name="teamName">
+                </mat-form-field>
+              </mat-card-content>
+              <mat-card-actions class="text-right" *ngIf="accessRightsService.canEdit('teams')">
+                <button mat-button color="primary" *ngIf="teamMode == 'select'" (click)="toTeamAdd()" [disabled]="!selectedUserType?.nametype">New Team</button>
+                <button mat-button color="warn" *ngIf="teamMode == 'select'" (click)="deleteSelectedTeam()" [disabled]="!selectedUserType?.nametype || !selectedTeam?.id">Delete Team</button>
+                <button mat-button color="primary" *ngIf="teamMode == 'add'" (click)="SaveNewTeam(teamName)">Save</button>
+              </mat-card-actions>
+            </mat-card>
+          </div>
+        </div>
+      </mat-accordion>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12 my-2" *ngIf="selectedTeam">
+      <mat-card>
+        <mat-card-content>
+          <h4>Manage Team of <strong>{{selectedUserType.nametype}}</strong></h4>
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="panel panel-warning no-margin">
+                <div class="panel-heading no-margin">
+                  <div class="panel-heading no-margin">
+                    <mat-form-field class="input-full-width">
+                      <span matPrefix>Search &nbsp;</span>
+                      <input type="tel" matInput [(ngModel)]="searchKey" (ngModelChange)="doUsersSearch(searchKey, 'name')">
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="panel-body" dnd-sortable-container [dropZones]="['boxers-zone']" [sortableData]="users">
+                  <ul class="list-group" >
+                    <li *ngFor="let item of users; let i = index" class="list-group-item" dnd-sortable [sortableIndex]="i">{{item}}</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="panel panel-success">
+                <div class="panel-heading">
+                  {{selectedTeam.id}}
+                </div>
+                <div class="panel-body" dnd-sortable-container [dropZones]="['boxers-zone']" [sortableData]="selectedTeam.members">
+                  <ul class="list-group" >
+                    <li *ngFor="let item of selectedTeam.members; let i = index" class="list-group-item" dnd-sortable [sortableIndex]="i">{{item}}</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
+</div>
