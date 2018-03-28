@@ -1,0 +1,24 @@
+<div>
+  <mat-form-field>
+    <mat-select [(ngModel)]="selectedSite" (change)="onChangeSelectedSite($event)" placeholder="Select a site">
+      <mat-option *ngFor="let site of sites" [value]="site">
+        {{site.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field *ngIf="selectedSite;">
+    <mat-select [(ngModel)]="selectedZone" (change)="onChangeSelectedZone($event)" placeholder="Select a zone">
+      <mat-option *ngFor="let zone of zones" [value]="zone">
+        {{zone.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <button style="float: right;" mat-raised-button type="button" *ngIf="selectedSite;" (click)="displayZones()">Zones</button>
+  <button style="float: right;" mat-raised-button type="button" *ngIf="selectedSite && selectedZone;" (click)="displayJobs()">Jobs</button>
+  <button style="float: right;" mat-raised-button *ngIf="selectedSite && selectedZone;" (click)="displayEnforcers()">Enforcers</button>
+  <button style="float: right;" mat-raised-button *ngIf="selectedSite && selectedZone;" (click)="displayDrivers()">Drivers</button>
+
+</div>
+
