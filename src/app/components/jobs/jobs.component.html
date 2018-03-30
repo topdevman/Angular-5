@@ -1,0 +1,237 @@
+<ngb-tabset #table="ngbTabset">
+  <ngb-tab id="joblist">
+    <ng-template ngbTabTitle><i class="fa fa-bars" aria-hidden="true"></i></ng-template>
+    <ng-template ngbTabContent>
+      <br/><br/>
+      <app-job-detail [job]="selectedJob"></app-job-detail>
+      <mat-form-field>
+        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+      </mat-form-field>
+      <div class="job-container mat-elevation-z8">
+
+        <mat-table [dataSource]="dataSource" matSort>
+
+          <!-- ID Column -->
+          <ng-container matColumnDef="car_licence_plate">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> License plate </mat-header-cell>
+            <mat-cell *matCellDef="let job"> {{job.car_licence_plate}} </mat-cell>
+          </ng-container>
+
+          <!-- ID Column -->
+          <ng-container matColumnDef="car_brand">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Brand </mat-header-cell>
+            <mat-cell *matCellDef="let job"> {{job.car_brand}} </mat-cell>
+          </ng-container>
+
+          <!-- ID Column -->
+          <ng-container matColumnDef="car_color">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Color </mat-header-cell>
+            <mat-cell *matCellDef="let job"> {{job.car_color}} </mat-cell>
+          </ng-container>
+
+          <!-- ID Column -->
+          <ng-container matColumnDef="custom_job_description">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Description </mat-header-cell>
+            <mat-cell *matCellDef="let job"> {{job.custom_job_description}} </mat-cell>
+          </ng-container>
+
+          <!-- ID Column -->
+          <ng-container matColumnDef="job_type">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Type </mat-header-cell>
+            <mat-cell *matCellDef="let job"> {{job.job_type}} </mat-cell>
+          </ng-container>
+
+          <!-- ID Column -->
+          <ng-container matColumnDef="creation">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Creation date </mat-header-cell>
+            <mat-cell *matCellDef="let job"> {{job.creation}} </mat-cell>
+          </ng-container>
+
+          <!-- ID Column -->
+          <ng-container matColumnDef="start">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Start time </mat-header-cell>
+            <mat-cell *matCellDef="let job"> {{job.start}} </mat-cell>
+          </ng-container>
+
+          <!-- ID Column -->
+          <ng-container matColumnDef="end">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> End time </mat-header-cell>
+            <mat-cell *matCellDef="let job"> {{job.end}} </mat-cell>
+          </ng-container>
+
+          <!-- ID Column -->
+          <ng-container matColumnDef="taker_first_name">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Taken by </mat-header-cell>
+            <mat-cell *matCellDef="let job"> {{job.taker_first_name}} </mat-cell>
+          </ng-container>
+
+          <!-- ID Column -->
+          <ng-container matColumnDef="zone_name">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Zone </mat-header-cell>
+            <mat-cell *matCellDef="let job"> {{job.zone_name}} </mat-cell>
+          </ng-container>
+
+          <!-- ID Column -->
+          <ng-container matColumnDef="latitude">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Latitude </mat-header-cell>
+            <mat-cell *matCellDef="let job"> {{job.latitude}} </mat-cell>
+          </ng-container>
+
+          <!-- ID Column -->
+          <ng-container matColumnDef="longitude">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Longitude </mat-header-cell>
+            <mat-cell *matCellDef="let job"> {{job.longitude}} </mat-cell>
+          </ng-container>
+
+          <!-- ID Column -->
+          <ng-container matColumnDef="actions">
+            <mat-header-cell *matHeaderCellDef mat-sort-header></mat-header-cell>
+            <mat-cell *matCellDef="let job">
+              <button class="delete" title="delete job"
+                      (click)="delete(job)"><i class="fa fa-trash-o" aria-hidden="true"></i>
+              </button>
+            </mat-cell>
+          </ng-container>
+
+
+
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let job; columns: displayedColumns;" (click)="onSelect(job)" [class.selected]="job === selectedJob">
+          </mat-row>
+        </mat-table>
+
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+      </div>
+    </ng-template>
+  </ngb-tab>
+
+  <ngb-tab id="jobadd">
+    <ng-template ngbTabTitle><i class="fa fa-plus" aria-hidden="true"></i></ng-template>
+    <ng-template ngbTabContent>
+      <div class="col-lg-12">
+        <div class="col-lg-7">
+          <mat-card>
+            <form>
+              <mat-card-header>
+                <mat-card-title class="col-lg-12 title-job">
+                  NEW JOB
+                </mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <div class="col-lg-12">
+
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <label>License plate</label>
+                    </div>
+                    <div class="col-lg-6">
+                      <label>Brand</label>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <mat-form-field>
+                        <input matInput name="licenseplate" [(ngModel)]="newJob.car_licence_plate">
+                      </mat-form-field>
+                    </div>
+                    <div class="col-lg-6">
+                      <mat-form-field>
+                        <mat-select name="brand" [(ngModel)]="newJob.car_brand">
+                          <mat-option *ngFor="let brand of brands" [value]="brand?.brand_name">
+                            {{ brand?.brand_name }}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <label>Color</label>
+                    </div>
+                    <div class="col-lg-6">
+                      <label>Type</label>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <mat-form-field>
+                        <mat-select name="color" [(ngModel)]="newJob.car_color">
+                          <mat-option *ngFor="let color of colors" [value]="color?.color_name">
+                            {{ color?.color_name }}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-lg-6">
+                      <mat-form-field>
+                        <mat-select name="type" [(ngModel)]="newJob.job_type">
+                          <mat-option *ngFor="let jobtype of jobtypes" [value]="jobtype?.type_name">
+                            {{ jobtype?.type_name }}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <label>Description</label>
+                    </div>
+
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <mat-form-field>
+                        <input matInput name="description" [(ngModel)]="newJob.custom_job_description">
+                      </mat-form-field>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-4">
+                      <label>Longitude</label>
+                    </div>
+                    <div class="col-lg-4">
+                      <label>Latitude</label>
+                    </div>
+                    <div class="col-lg-4">
+                      <label>Zone</label>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-4">
+                      <mat-form-field>
+                        <input matInput name="longitude" [(ngModel)]="newJob.longitude">
+                      </mat-form-field>
+                    </div>
+                    <div class="col-lg-4">
+                      <mat-form-field>
+                        <input matInput name="latitude" [(ngModel)]="newJob.latitude">
+                      </mat-form-field>
+                    </div>
+                    <div class="col-lg-4">
+                      <mat-form-field>
+                        <mat-select name="zone" [(ngModel)]="newJob.zone_name">
+                          <mat-option *ngFor="let zone of zones" [value]="zone?.name">
+                            {{ zone?.name }}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                  </div>
+
+                  <br/><br/>
+
+                </div>
+              </mat-card-content>
+              <mat-card-actions>
+                <button mat-button (click)="add(newJob);table.select('joblist')">SAVE</button>
+              </mat-card-actions>
+            </form>
+          </mat-card>
+        </div>
+      </div>
+    </ng-template>
+  </ngb-tab>
+</ngb-tabset>
