@@ -1,0 +1,44 @@
+mat-row:hover{
+  background: #31404b;
+  opacity: 0.9;
+  color: white;
+  cursor: pointer;
+  -webkit-transition: background-color 100ms linear;
+  -ms-transition: background-color 100ms linear;
+  transition: background-color 100ms linear;
+}
+mat-row:hover mat-cell{
+  color: white;
+}
+mat-row:hover mat-cell button i{
+  color: #31404b;
+}
+.selected{
+  background: #31404b;
+  opacity: 0.9;
+}
+
+.selected mat-cell{
+  color: white;
+}
+.selected mat-cell button i{
+  color: #31404b;
+}
+.title-zone{
+  color: #31404b;
+  font-size: 2em;
+  font-weight: bold;
+}
+.button-form{
+  background-color: #25AAE1;
+  color: white;
+}
+
+.button-form:hover{
+  background-color: #1A6B84;
+}
+
+mat-header-cell{
+  background-color: white;
+  color: #33404A;
+}
