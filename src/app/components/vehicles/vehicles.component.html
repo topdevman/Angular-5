@@ -1,0 +1,183 @@
+<div *ngIf="!accessRightsService.canView('vehicles')" class="alert alert-danger">
+  <strong>Access Denied!</strong><br/> You don't have permissions to View this page.
+</div>
+<ngb-tabset *ngIf="accessRightsService.canView('vehicles')" #table="ngbTabset">
+  <ngb-tab id="vehiclelist">
+    <ng-template ngbTabTitle><i class="fa fa-bars" aria-hidden="true"></i></ng-template>
+    <ng-template ngbTabContent>
+      <br/><br/>
+      <app-vehicle-detail [vehicle]="selectedVehicle"></app-vehicle-detail>
+      <mat-form-field>
+        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+      </mat-form-field>
+      <div class="vehicle-container mat-elevation-z8">
+
+        <mat-table [dataSource]="dataSource" matSort>
+
+          <!-- ID Column -->
+          <ng-container matColumnDef="licence_plate">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> License plate </mat-header-cell>
+            <mat-cell *matCellDef="let vehicle"> {{vehicle.licence_plate}} </mat-cell>
+          </ng-container>
+
+          <!-- ID Column -->
+          <ng-container matColumnDef="issuedate">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Issue date </mat-header-cell>
+            <mat-cell *matCellDef="let vehicle"> {{vehicle.issuedate | date: 'd/M/y'}} </mat-cell>
+          </ng-container>
+
+          <!-- ID Column -->
+          <ng-container matColumnDef="type">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Type </mat-header-cell>
+            <mat-cell *matCellDef="let vehicle"> {{vehicle.type}} </mat-cell>
+          </ng-container>
+
+          <!-- ID Column -->
+          <ng-container matColumnDef="brand">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Brand </mat-header-cell>
+            <mat-cell *matCellDef="let vehicle"> {{vehicle.brand}} </mat-cell>
+          </ng-container>
+
+          <!-- ID Column -->
+          <ng-container matColumnDef="model">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Model </mat-header-cell>
+            <mat-cell *matCellDef="let vehicle"> {{vehicle.model}} </mat-cell>
+          </ng-container>
+
+          <!-- ID Column -->
+          <ng-container matColumnDef="color">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Color </mat-header-cell>
+            <mat-cell *matCellDef="let vehicle"> {{vehicle.color}} </mat-cell>
+          </ng-container>
+
+          <!-- ID Column -->
+          <ng-container matColumnDef="actions">
+            <mat-header-cell *matHeaderCellDef mat-sort-header></mat-header-cell>
+            <mat-cell *matCellDef="let vehicle">
+              <button class="delete" title="delete user"
+                      *ngIf="accessRightsService.canEdit('vehicles')"
+                      (click)="delete(vehicle)"><i class="fa fa-trash-o" aria-hidden="true"></i>
+              </button>
+            </mat-cell>
+          </ng-container>
+
+
+
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let vehicle; columns: displayedColumns;" (click)="onSelect(vehicle)" [class.selected]="vehicle === selectedVehicle">
+          </mat-row>
+        </mat-table>
+
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+      </div>
+    </ng-template>
+  </ngb-tab>
+  <ngb-tab id="useradd" *ngIf="accessRightsService.canEdit('vehicles')">
+    <ng-template ngbTabTitle><i class="fa fa-plus" aria-hidden="true"></i></ng-template>
+    <ng-template ngbTabContent>
+      <br/>
+      <br/>
+      <div class="col-lg-12">
+        <div class="col-lg-7">
+          <mat-card>
+            <form>
+              <mat-card-header>
+                <mat-card-title class="col-lg-12 title-site">
+                  NEW VEHICLE
+                </mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <div class="col-lg-12">
+
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <label>License plate</label>
+                    </div>
+                    <div class="col-lg-6">
+                      <label>Vehicle type</label>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <mat-form-field>
+                        <input matInput required name="licenseplate" [(ngModel)]="newVehicle.licence_plate">
+                      </mat-form-field>
+                    </div>
+                    <div class="col-lg-6">
+                      <mat-form-field>
+                        <mat-select name="type" [(ngModel)]="newVehicle.type">
+                          <mat-option *ngFor="let vehicletype of vehicletypes" [value]="vehicletype?.type_name">
+                            {{ vehicletype?.type_name }}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <label>Issue date</label>
+                    </div>
+                    <div class="col-lg-6">
+                      <label>Brand</label>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <mat-form-field>
+                        <input matInput [(ngModel)]="newVehicle.issuedate" [matDatepicker]="picker" name="issuedate">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-lg-6">
+                      <mat-form-field>
+                        <mat-select name="brand" [(ngModel)]="newVehicle.brand">
+                          <mat-option *ngFor="let brand of brands" [value]="brand?.brand_name">
+                            {{ brand?.brand_name }}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <label>Model</label>
+                    </div>
+                    <div class="col-lg-6">
+                      <label>Color</label>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <mat-form-field>
+                        <input matInput name="licenseplate" [(ngModel)]="newVehicle.model">
+                      </mat-form-field>
+                    </div>
+                    <div class="col-lg-6">
+                      <mat-form-field>
+                        <mat-select name="color" [(ngModel)]="newVehicle.color">
+                          <mat-option *ngFor="let color of colors" [value]="color?.color_name">
+                            {{ color?.color_name }}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                  </div>
+
+
+                  <br/><br/>
+
+                </div>
+              </mat-card-content>
+              <mat-card-actions class="text-right">
+                <button mat-raised-button class="button-form" *ngIf="accessRightsService.canEdit('vehicles')" style="margin-right: 35px"(click)="add(newVehicle)">SAVE</button>
+              </mat-card-actions>
+            </form>
+          </mat-card>
+        </div>
+      </div>
+    </ng-template>
+  </ngb-tab>
+</ngb-tabset>
