@@ -1,0 +1,91 @@
+<div class="row">
+  <div class="col-lg-12" *ngIf="vehicle">
+    <mat-card class="col-lg-12">
+      <mat-card-content>
+        <div class="col-lg-10">
+
+          <div class="row">
+            <div class="col-lg-6">
+              <label>License plate</label>
+            </div>
+            <div class="col-lg-6">
+              <label>Vehicle type</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-6">
+              <mat-form-field>
+                <input matInput [(ngModel)]="vehicle.licence_plate" name="licenseplate">
+              </mat-form-field>
+            </div>
+            <div class="col-lg-6">
+              <mat-form-field>
+                <mat-select name="type" [(ngModel)]="vehicle.type">
+                  <mat-option *ngFor="let vehicletype of vehicletypes" [value]="vehicletype?.type_name">
+                    {{ vehicletype?.type_name }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-lg-3">
+              <label>Issuedate</label>
+            </div>
+            <div class="col-lg-3">
+              <label>Brand</label>
+            </div>
+            <div class="col-lg-3">
+              <label>Model</label>
+            </div>
+            <div class="col-lg-3">
+              <label>Color</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-3">
+              <mat-form-field>
+                <input matInput [(ngModel)]="vehicle.issuedate" [matDatepicker]="picker" name="issuedate">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+            </div>
+            <div class="col-lg-3">
+              <mat-form-field>
+                <mat-select name="brand" [(ngModel)]="vehicle.brand">
+                  <mat-option *ngFor="let brand of brands" [value]="brand?.brand_name">
+                    {{ brand?.brand_name }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-lg-3">
+              <mat-form-field>
+                <input matInput [(ngModel)]="vehicle.model" name="model">
+              </mat-form-field>
+            </div>
+            <div class="col-lg-3">
+              <mat-form-field>
+                <mat-select name="color" [(ngModel)]="vehicle.color">
+                  <mat-option *ngFor="let color of colors" [value]="color?.color_name">
+                    {{ color?.color_name }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <br/><br/>
+
+        </div>
+      </mat-card-content>
+      <mat-card-actions>
+        <img src="http://via.placeholder.com/180x130">
+        <br><br><br><br>
+        <button mat-raised-button class="button-form" style="float: right; margin-right: 35px" *ngIf="accessRightsService.canEdit('vehicles')" (click)="save();">SAVE</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>
+<br/>
