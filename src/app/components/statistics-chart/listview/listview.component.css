@@ -1,0 +1,12 @@
+ul.chart-group {
+  padding-left: 0px;
+  overflow: auto;
+}
+
+li.chart-thumbnail {
+  list-style-type: none;
+  display: inline-block;
+  margin: 40px 30px 40px 90px;
+  font-size: 0.8em;
+}
+

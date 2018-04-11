@@ -1,0 +1,218 @@
+div.navigation {
+  margin-bottom: 0px !important;
+}
+
+div [class^="navigation"] {
+  display: inline-block;
+}
+
+div.navigataion-command {
+  font-size: 1.4em;
+  display: inline-block;
+}
+
+div.navigation-path {
+  font-size: 1.2em;
+  line-height: 1.8em;
+  margin-left: 0.5em;
+  margin-right: 1em;
+}
+
+.mat-select-value-text {
+  color: blue !important;
+}
+
+div.navigation-path span {
+  margin-left: 6px;
+  margin-right: 6px;
+}
+
+div.navigation-directories select {
+  padding: 0.2em 1em;
+}
+
+div.chart-filter-dropdown {
+  min-width: 16.3%;
+  max-width: 480px;
+}
+
+div.mat-input-prefix.mat-form-field-prefix {
+  padding-right: 8px !important;
+}
+
+.mat-select div.mat-select-trigger {
+  min-height: 18px;
+}
+
+div.chart-filter-calendar {
+  display: inline-block;
+  max-width: 36%;
+}
+
+div.chart-filter-calendar > div.chart-filter-daterange-selector {
+  display: inline-block;
+  width: 100%;
+}
+
+div.chart-filter-calendar > div.chart-filter-daterange-selector > div {
+  display: inline-block;
+  max-width: 50%;
+}
+
+button.btn.m-btn--pill {
+  min-width: 120px;
+}
+
+button.btn.m-btn--pill > span {
+  display: inline-block;
+}
+
+button.btn.m-btn--pill:focus {
+  outline: none;
+}
+
+button.date-picker-btn {
+  margin-left: 0px;
+  height: 31px;
+  border-top-left-radius: 2px;
+  border-bottom-left-radius: 2px;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+
+input.date-picker {
+  border-radius: 2px !important;
+  margin-left: -2px;
+  height: 31px;
+  padding-right: 19px !important;
+  font-size: 0.97em;
+  max-width: 800px;
+}
+
+.navigation span div.input-group{
+  border-bottom: 1px solid rgb(54, 163, 247);
+  height: 31px;
+}
+
+.calendarform {
+  padding-top: 0.4375em;
+  margin-bottom: 10px; 
+  width: 100%;
+  border-bottom: 1px solid rgb(54, 163, 247);
+}
+
+.calendarform label {
+  line-height: 0px !important;
+  padding-top: 15px;
+}
+
+.mat-form-field {
+  width: 100%;
+}
+
+.mat-select-value-text {
+  color: blue !important;
+}
+
+.mat-button {
+  min-width: 0px;
+  padding: 0px 0px 0px 0px;
+}
+
+.Compare {
+  text-align: center;
+  margin-top: -35px;
+}
+
+.mat-form-field span {
+  display: table-caption !important;
+}
+
+.Compare-date{
+  float: right;
+}
+
+.compare-filters {
+  display: inline-flex;
+  border-bottom: 1px solid #ff7f0e;
+}
+
+.hidden-compare-filters {
+  display: none !important;
+}
+
+.chart-compare-btn {
+  display: inline-flex;
+  width: auto;
+  padding-top: 0.4375em;
+}
+
+@media(max-width: 991px) {
+  .chart-compare-btn {
+    float: right !important;
+    margin-right: 15px;
+    padding-top: 0px;
+  }
+
+  div.chart-filter-calendar {
+    min-width: 100% !important;
+  }
+
+  div.chart-filter-dropdown {
+    min-width: 100% !important;
+    max-width: 480px;
+  }
+}
+@media(max-width: 500px) {
+  div.chart-filter-calendar > div.chart-filter-daterange-selector > div {
+    display: inline-block;
+    max-width: 100% !important;
+  }
+}
+@media(max-width: 1588px) {
+
+  div.chart-filter-calendar {
+    min-width: 69%;
+  }
+
+  div.chart-filter-dropdown {
+    min-width: 33%;
+    max-width: 480px;
+  }
+}
+
+.chart-compare-btn label{
+  line-height: 32px;
+  padding: 0px 10px;
+  margin-bottom: 0px;
+}
+
+.date-filter {
+  border-color: #28c332;
+  background: rgb(54, 163, 247);
+  color: white;
+}
+
+.compare-filter {
+  border-color: #ff7f0e;
+  background: #ff7f0e;
+  color: white;
+}
+
+@media(min-width: 324px) {
+  @media(max-width: 991px) {
+    .chart-create-btn {
+      top: -30px;
+      height: 0px;
+      position: relative;
+    }
+  }
+  @media(min-width: 1237px) {
+    @media(max-width: 1588px) {
+      .chart-create-btn {
+        height: 0px;
+        position: relative;
+      }
+    }
+  }
+}

@@ -1,0 +1,111 @@
+<div>
+  <div data-field="Navigation" class="navigation col-xs-12 col-md-12 col-sm-12 col-lg-12 form-group row">
+    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-2 chart-filter-dropdown">
+      <mat-form-field>
+        <span matPrefix style="padding-right: 8px">Project: </span>
+        <mat-select [(ngModel)]="project_id" (ngModelChange)="onFilterChanged($event)" #site="ngModel">
+          <mat-option>&nbsp;</mat-option>
+          <mat-option *ngFor="let project of projects" [value]="project.id">
+            {{ project.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-2 chart-filter-dropdown">
+      <mat-form-field>
+        <span matPrefix style="padding-right: 8px">Site: </span>
+        <mat-select [(ngModel)]="site_id" (ngModelChange)="onFilterChanged($event)" #site="ngModel">
+          <mat-option>&nbsp;</mat-option>
+          <ng-template ngFor let-site [ngForOf]="sites">
+            <mat-option *ngIf="!project_id || site.project_uid == project_id" [value]="site.id">
+              {{ site.name }}
+            </mat-option>
+          </ng-template>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-2 chart-filter-dropdown">
+      <mat-form-field>
+        <span matPrefix style="padding-right: 8px">Vehicles: </span>
+        <mat-select [(ngModel)]="vehicle_type" (ngModelChange)="onFilterChanged($event)" #vehicle="ngModel">
+          <mat-option>&nbsp;</mat-option>
+          <mat-option *ngFor="let vehicle of vehicles" [value]="vehicle.name">
+            {{ vehicle.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="chart-filter-calendar col-md-8 col-lg-6 row">
+      <div class="chart-filter-daterange-selector">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+          <div class="input-group calendarform" id="StartDateForm">
+            <label style="width: 60px;" for="StartDate">From: </label>
+            <button class="btn date-picker-btn" (click)="sd.toggle()" type="button">
+              <i class="fa fa-calendar"></i>
+            </button>
+            <input class="form-control date-picker date-filter" maxlength="10" name="StartDate" readonly
+              [(ngModel)]="searchFrom" ngbDatepicker #sd="ngbDatepicker" (ngModelChange)="dateFilterChanged('searchFrom', $event)">
+          </div>
+        </div>
+
+        <div class="col-md-6 col-sm-6 col-xs-12">
+          <div class="input-group calendarform" id="EndDateForm">
+            <label style="width: 60px;" for="EndDate">To: </label>
+            <button class="btn date-picker-btn" (click)="ed.toggle()" type="button">
+              <i class="fa fa-calendar"></i>
+            </button>
+            <input #EndDate class="form-control date-picker date-filter" maxlength="10" name="EndDate" readonly
+              [(ngModel)]="searchTo" ngbDatepicker #ed="ngbDatepicker" (ngModelChange)="dateFilterChanged('searchTo', $event)">
+          </div>
+        </div>
+      </div>
+
+      <div class="chart-filter-daterange-selector">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+          <div class="input-group calendarform compare-filters" id="CompareFromForm"
+            [ngClass]="{'hidden-compare-filters': !displayCompare}">
+            <label style="width: 60px;" for="Start_Date">From: </label>
+            <button class="btn date-picker-btn" (click)="csd.toggle()" type="button" style="background: #ff7f0e;">
+              <i class="fa fa-calendar"></i>
+            </button>
+            <input class="form-control date-picker compare-filter" maxlength="10" name="Start_Date" readonly
+              [(ngModel)]="compareFrom"  ngbDatepicker #csd="ngbDatepicker" (ngModelChange)="dateFilterChanged('compareFrom', $event)">
+          </div>
+        </div>
+
+        <div class="col-md-6 col-sm-6 col-xs-12">
+          <div class="input-group calendarform compare-filters" id="CompareToForm"
+            [ngClass]="{'hidden-compare-filters': !displayCompare}">
+            <label style="width: 60px;" for="EndDate">To: </label>
+            <button class="btn date-picker-btn" (click)="ced.toggle()" type="button" style="background: #ff7f0e;">
+              <i class="fa fa-calendar"></i>
+            </button>
+            <input #EndDate class="form-control date-picker compare-filter" maxlength="10" name="End_Date" readonly
+              [(ngModel)]="compareTo" ngbDatepicker #ced="ngbDatepicker" (ngModelChange)="dateFilterChanged('compareTo', $event)">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xs-12 col-sm-12 col-md-3 col-lg2 text-right chart-compare-btn">
+      <label>Compare to</label>
+      <button class="btn btn-default" (click)="CompareEvent($event)" style="color: white; background-color: #37a000;">
+        <span class="glyphicon" [ngClass]="{'glyphicon-plus': !displayCompare, 'glyphicon-minus': !!displayCompare}"></span>
+      </button>
+    </div>
+  </div>
+
+  <div class="chart-create-btn">
+    <button type="button" class="btn btn-primary m-btn--icon m-btn--pill" (click)="publishChart()">
+      <span>Create</span>
+    </button>
+  </div>
+
+  <charts-listview #chartView *ngIf="pageView == PageViewMode.ListView" (onCreateChart)="changeView(PageViewMode.CreateView)"
+    [dateFrom]="dateFrom" [dateUntil]="dateUntil" [compareFrom]="compareDateFrom" [compareUntil]="compareDateUntil" [filters]="filters">
+  </charts-listview>
+  <!-- <button mat-button (click)="openDialog()"><i class="fa fa-plus-square" style="font-size: 2.4em; color: green;" aria-hidden="true"></i></button> -->
+</div>

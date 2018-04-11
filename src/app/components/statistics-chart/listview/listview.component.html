@@ -1,0 +1,28 @@
+<!-- <div data-field="Commands" class="col-xs-12 col-md-3 form-group row">
+  <button type="button" class="btn btn-primary m-btn--icon m-btn--pill" (click)="createChart()">
+    <span>Create New Chart</span>
+  </button>
+</div>
+
+<div data-field="Compare" class="col-xs-12 col-sm-12 form-group" style="text-align: center">
+  <div class="row" style="display: inline-block">
+    <div class="input-group text-center">
+    </div>
+  </div>
+</div> -->
+<div data-field="Charts" class="col-xs-12 text-center form-group">
+  <ul #chartContainer class="chart-group" (window:resize)="onRelayout()">
+    <li class="chart-thumbnail" *ngFor="let chart of chartResults">
+      <stat-chart style="width: 500px; height: 300px; display: inline-block;"
+        [showTitle]="true" [showExpand]="true" [data]="chart" [filters]="filters"
+        [dateFrom]="dateFrom" [dateUntil]="dateUntil"
+        [compareFrom]="compareFrom" [compareUntil]="compareUntil"
+        (expandClicked)="showChartModal(chart)" (dataChanged)="updateChart($event)">
+      </stat-chart>
+    </li>
+  </ul>
+  <ngb-pagination [rotate]="true" [ellipses]="false" [boundaryLinks]="true" [directionLinks]="false"
+    [collectionSize]="chartCount" [pageSize]="pageSize" [(page)]="currentPage" [maxSize]="5"
+    (pageChange)="paginationChanged()">
+  </ngb-pagination>
+</div>
