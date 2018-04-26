@@ -1,0 +1,15 @@
+<div class="jumbotron text-center">
+  <h1><i class="fa fa-refresh" aria-hidden="true"></i> Page under construction</h1>
+  <div  *ngIf="authService.loggedIn();else notLoggedIn">
+
+  </div>
+</div>
+
+<ng-template #notLoggedIn>
+  <p class="lead">
+    Welcome to the dashbpard</p>
+  <div>
+    <a class ="btn btn-default" [routerLink]="['login']">Login</a>
+  </div>
+</ng-template>
+
