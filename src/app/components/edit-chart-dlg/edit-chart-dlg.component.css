@@ -1,0 +1,59 @@
+.mat-dialog-container {
+    border-radius: 0px;
+}
+
+.mat-toolbar {
+    height: 2.4em !important;
+    font-size: 1.2em;
+    color: white;
+    text-transform: uppercase;
+    background: rgb(142, 198, 63);
+    font-weight: 500;
+}
+
+.mat-toolbar.edit {
+    background: rgb(37, 170, 226);
+}
+
+.dialog-content {
+    padding: 24px;
+    height: calc(100% - 3em);
+}
+
+.dialog-content form {
+    height: 100%;
+    width: 100%;
+}
+
+.dialog-content .chart-form .left-pane {
+    height: 100%;
+    position: relative;
+}
+
+.chart-settings {
+    min-height: 300px;
+}
+
+.action-buttons {
+    display: inline-block;
+    position: absolute;
+    bottom: 0;
+}
+
+.action-buttons button {
+    display: block;
+    margin-top: 12px;
+    min-width: 120px;
+    text-transform: uppercase;
+}
+.action-buttons button.primary {
+    color: white !important;
+    background: rgb(142, 198, 63) !important;
+}
+.action-buttons button.primary.edit {
+    background: rgb(37, 170, 226) !important;
+}
+
+.input-full-width {
+    width: 100%;
+}
