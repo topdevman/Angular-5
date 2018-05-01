@@ -1,0 +1,49 @@
+.column {
+  float: left;
+  width: 20%;
+  padding: 0.5em;
+}
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+.selected {
+  background-color: #CFD8DC !important;
+  color: white;
+  cursor: pointer;
+}
+.itemGroup {
+  margin: 0 0 2em 0;
+  list-style-type: none;
+  padding: 0;
+  cursor: pointer;
+}
+.itemGroup li {
+  cursor: pointer;
+  position: relative;
+  left: 0;
+  background-color: #EEE;
+  margin: .5em;
+  padding: .3em 0;
+  height: 2.5em;
+  border-radius: 4px;
+  text-align: center;
+}
+.itemGroup li.selected:hover {
+  background-color: #BBD8DC !important;
+  color: white;
+}
+.itemGroup li:hover {
+  color: #607D8B;
+  background-color: #DDD;
+  left: .1em;
+}
+.itemGroup .text {
+  position: relative;
+  top: -3px;
+  padding-left: 0.3em;
+}
+.groupBtn {
+  width: 100%;
+}

@@ -1,0 +1,202 @@
+<h1 mat-dialog-title></h1>
+<div mat-dialog-content>
+
+  <div class="row">
+    <div class="col-lg-3">
+
+      <h5>Sites</h5>
+
+      <!-- Sites -->
+      <mat-table #sitetable [dataSource]="siteDataSource">
+
+          <!-- Checkbox Column -->
+          <ng-container matColumnDef="selectSite">
+            <mat-header-cell class="select-mat-header-cell" *matHeaderCellDef>
+              <mat-checkbox (change)="$event ? masterToggleSite() : null"
+                            [checked]="siteSelection.hasValue() && isAllSitesSelected()"
+                            [indeterminate]="siteSelection.hasValue() && !isAllSitesSelected()">
+              </mat-checkbox>
+            </mat-header-cell>
+            <mat-cell class="select-mat-cell" *matCellDef="let row">
+              <mat-checkbox (click)="$event.stopPropagation()"
+                            (change)="$event ? siteSelectionToggle(row) : null"
+                            [checked]="siteSelection.isSelected(row)">
+              </mat-checkbox>
+            </mat-cell>
+          </ng-container>
+
+          <!-- Name Column -->
+          <ng-container matColumnDef="nameSite">
+            <mat-header-cell *matHeaderCellDef> All Sites </mat-header-cell>
+            <mat-cell *matCellDef="let site"> {{site.name}} </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="siteDisplayedColumns"></mat-header-row>
+
+          <mat-row *matRowDef="let row; columns: siteDisplayedColumns;"
+                   (click)="siteSelectionToggle(row)">
+          </mat-row>
+        </mat-table>
+
+    </div>
+    <div class="col-lg-3">
+
+      <h5>Zones</h5>
+
+      <!-- Zones -->
+      <mat-table #zonetable [dataSource]="zoneDataSource">
+
+          <!-- Checkbox Column -->
+          <ng-container matColumnDef="selectZone">
+            <mat-header-cell class="select-mat-header-cell" *matHeaderCellDef>
+              <mat-checkbox (change)="$event ? masterToggleZone() : null"
+                            [checked]="zoneSelection.hasValue() && isAllZonesSelected()"
+                            [indeterminate]="zoneSelection.hasValue() && !isAllZonesSelected()">
+              </mat-checkbox>
+            </mat-header-cell>
+            <mat-cell class="select-mat-cell" *matCellDef="let row">
+              <mat-checkbox (click)="$event.stopPropagation()"
+                            (change)="$event ? zoneSelection.toggle(row) : null"
+                            [checked]="zoneSelection.isSelected(row)">
+              </mat-checkbox>
+            </mat-cell>
+          </ng-container>
+
+          <!-- Name Column -->
+          <ng-container matColumnDef="nameZone">
+            <mat-header-cell *matHeaderCellDef> All Zones </mat-header-cell>
+            <mat-cell *matCellDef="let zone"> {{zone.name}} </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="zoneDisplayedColumns"></mat-header-row>
+
+          <mat-row *matRowDef="let row; columns: zoneDisplayedColumns;"
+                   (click)="zoneSelection.toggle(row)">
+          </mat-row>
+        </mat-table>
+
+    </div>
+    <div class="col-lg-3">
+
+
+      <h5>Jobs</h5>
+
+      <!-- Jobs -->
+      <mat-table #zonetable [dataSource]="jobTypesDataSource">
+
+        <!-- Checkbox Column -->
+        <ng-container matColumnDef="selectJobType">
+          <mat-header-cell class="select-mat-header-cell" *matHeaderCellDef>
+            <mat-checkbox (change)="$event ? masterToggleJobType() : null"
+                          [checked]="jobTypesSelection.hasValue() && isAllJobTypesSelected()"
+                          [indeterminate]="jobTypesSelection.hasValue() && !isAllJobTypesSelected()">
+            </mat-checkbox>
+          </mat-header-cell>
+          <mat-cell class="select-mat-cell" *matCellDef="let row">
+            <mat-checkbox (click)="$event.stopPropagation()"
+                          (change)="$event ? jobTypesSelectionToggle(row) : null"
+                          [checked]="jobTypesSelection.isSelected(row)">
+            </mat-checkbox>
+          </mat-cell>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="nameJobType">
+          <mat-header-cell *matHeaderCellDef> Any Job Type </mat-header-cell>
+          <mat-cell *matCellDef="let jobtype"> {{jobtype}} </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="jobTypesDisplayedColumns"></mat-header-row>
+
+        <mat-row *matRowDef="let row; columns: jobTypesDisplayedColumns;"
+                 (click)="jobTypesSelectionToggle(row)">
+        </mat-row>
+      </mat-table>
+
+      <br />
+
+      <!-- Jobs -->
+      <mat-table #zonetable [dataSource]="jobStatusDataSource">
+
+        <!-- Checkbox Column -->
+        <ng-container matColumnDef="selectJobStatus">
+          <mat-header-cell class="select-mat-header-cell" *matHeaderCellDef>
+            <mat-checkbox (change)="$event ? masterToggleJobStatus() : null"
+                          [checked]="jobStatusSelection.hasValue() && isAllJobStatusSelected()"
+                          [indeterminate]="jobStatusSelection.hasValue() && !isAllJobStatusSelected()">
+            </mat-checkbox>
+          </mat-header-cell>
+          <mat-cell class="select-mat-cell" *matCellDef="let row">
+            <mat-checkbox (click)="$event.stopPropagation()"
+                          (change)="$event ? jobStatusSelection.toggle(row) : null"
+                          [checked]="jobStatusSelection.isSelected(row)">
+            </mat-checkbox>
+          </mat-cell>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="nameJobStatus">
+          <mat-header-cell *matHeaderCellDef> Any Job Status </mat-header-cell>
+          <mat-cell *matCellDef="let jobstatus"> {{jobstatus}} </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="jobStatusDisplayedColumns"></mat-header-row>
+
+        <mat-row *matRowDef="let row; columns: jobStatusDisplayedColumns;"
+                 (click)="jobStatusSelection.toggle(row)">
+        </mat-row>
+      </mat-table>
+
+    </div>
+
+    <div class="col-lg-3">
+
+      <h5>Agents</h5>
+
+      <!-- Agents -->
+      <mat-table #zonetable [dataSource]="agentDataSource">
+
+        <!-- Checkbox Column -->
+        <ng-container matColumnDef="selectAgent">
+          <mat-header-cell class="select-mat-header-cell" *matHeaderCellDef>
+            <mat-checkbox (change)="$event ? masterToggleAgent() : null"
+                          [checked]="agentSelection.hasValue() && isAllAgentsSelected()"
+                          [indeterminate]="agentSelection.hasValue() && !isAllAgentsSelected()">
+            </mat-checkbox>
+          </mat-header-cell>
+          <mat-cell class="select-mat-cell" *matCellDef="let row">
+            <mat-checkbox (click)="$event.stopPropagation()"
+                          (change)="$event ? agentSelection.toggle(row) : null"
+                          [checked]="agentSelection.isSelected(row)">
+            </mat-checkbox>
+          </mat-cell>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="nameAgent">
+          <mat-header-cell *matHeaderCellDef> Any Agent Type </mat-header-cell>
+          <mat-cell *matCellDef="let agent"> {{agent}} </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="agentDisplayedColumns"></mat-header-row>
+
+        <mat-row *matRowDef="let row; columns: agentDisplayedColumns;"
+                 (click)="agentSelection.toggle(row)">
+        </mat-row>
+      </mat-table>
+
+      <br />
+    </div>
+
+  </div>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button class="button-form"
+  mat-button
+  [mat-dialog-close]="data"
+  cdkFocusInitial
+  (click)="onSave()">Save</button>
+
+</div>
+

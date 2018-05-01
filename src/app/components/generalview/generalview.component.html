@@ -1,0 +1,21 @@
+<div class="row">
+    <div class="col-lg-12">
+      <mat-card>
+        <mat-card-content>
+          
+          <button mat-button (click)="openFilterDialog()">
+            <i class="fa fa-cogs"></i>
+            Filters
+          </button>
+          <br /><br />
+          <app-mapview
+            [options]="mapOptions"
+            [mapdata]="mapdata">
+          </app-mapview>
+          <br />
+
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+

@@ -1,0 +1,25 @@
+
+
+
+
+.button-form{
+  background-color: #25AAE1;
+  color: white;
+}
+
+.button-form:hover{
+  background-color: #1A6B84;
+}
+
+.mat-header-row, .mat-row {
+  padding: 0;
+}
+
+.select-mat-cell,
+.select-mat-header-cell {
+  flex: 0 0 20%;
+}
+
+mat-cell {
+  cursor: pointer;
+}
