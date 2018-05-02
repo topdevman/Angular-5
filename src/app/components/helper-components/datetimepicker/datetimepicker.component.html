@@ -1,0 +1,16 @@
+<div  class="app-datetimepicker">
+  <div class="row">
+    <div class="col-lg-12">
+      <h5 class="label label-default">{{label}}</h5>
+      <div class="input-group">
+        <input matInput placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="date" (ngModelChange)="dateChanged($event)" ngbDatepicker #d="ngbDatepicker">
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
+            <i style="width: 1.2rem; height: 1rem; cursor: pointer;" class="glyphicon glyphicon-calendar"></i>
+          </button>
+        </div>
+      </div>
+      <ngb-timepicker seconds="true" [(ngModel)]="time" (ngModelChange)="timeChanged($event)"></ngb-timepicker>
+    </div>
+  </div>
+</div>
