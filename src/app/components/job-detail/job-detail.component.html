@@ -1,0 +1,242 @@
+<div class="row">
+  <div class="col-lg-12" *ngIf="job">
+    <mat-card>
+      <mat-card-content>
+
+          <div class="row">
+            <div class="col-lg-4 col-sm-6 col-xs-12">
+
+                  <mat-form-field>
+                    <input  placeholder="License Plate"  matInput [(ngModel)]="job.car_licence_plate" name="licenseplate">
+                  </mat-form-field>
+
+              <div class="row">
+                <div class="col-lg-6">
+                  <mat-form-field>
+                    <mat-select  placeholder="Brand"  name="brand" [(ngModel)]="job.car_brand">
+                      <mat-option *ngFor="let brand of brands" [value]="brand?.brand_name">
+                        {{ brand?.brand_name }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+
+                </div>
+                <div class="col-lg-6">
+
+                  <mat-form-field>
+                    <mat-select  placeholder="Color"  name="color" [(ngModel)]="job.car_color">
+                      <mat-option *ngFor="let color of colors" [value]="color?.color_name">
+                        {{ color?.color_name }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+
+                </div>
+              </div>
+
+              <br />
+
+              <mat-checkbox  name="is_simplified_address"  [(ngModel)]="isSimplifiedAddress">
+                <small>Use Simplified Address</small>
+              </mat-checkbox>
+              <br />
+
+              <div *ngIf="!isSimplifiedAddress">
+                <div class="row">
+                  <div class="col-lg-4">
+                      <mat-form-field>
+                        <input matInput placeholder="Number" [(ngModel)]="n_number" name="n_number">
+                      </mat-form-field>
+                  </div>
+                  <div class="col-lg-8">
+                      <mat-form-field>
+                        <input matInput  placeholder="Street" [(ngModel)]="n_street" name="n_street">
+                      </mat-form-field>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-8">
+                    <mat-form-field>
+                      <input matInput  placeholder="City" [(ngModel)]="n_city" name="n_city">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-lg-4">
+                    <mat-form-field>
+                      <input matInput  placeholder="ZIP Code" [(ngModel)]="n_zip" name="n_zip">
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+
+              <div *ngIf="isSimplifiedAddress">
+                <div class="row">
+                  <div class="col-lg-6">
+                      <mat-form-field>
+                        <input matInput placeholder="Street" [(ngModel)]="s_street" name="s_street">
+                      </mat-form-field>
+                  </div>
+                  <div class="col-lg-6">
+                      <mat-form-field>
+                        <input matInput placeholder="Intersection" [(ngModel)]="s_intersection" name="s_intersection">
+                      </mat-form-field>
+                  </div>
+                </div>
+              </div>
+
+              <mat-form-field>
+                <mat-select placeholder="Zone" [(ngModel)]="job.zone_name" name="zone">
+                  <mat-option *ngFor="let zone of zones" [value]="zone?.name">
+                    {{ zone?.name }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+
+              <mat-form-field>
+                <input matInput placeholder="Description" [(ngModel)]="job.custom_job_description" name="description">
+              </mat-form-field>
+
+              <div class="row">
+                <div class="col-lg-6">
+
+                  <mat-form-field>
+                    <mat-select
+                      placeholder="Job Type"
+                      name="type"
+                      [(ngModel)]="job.job_type"
+                      (ngModelChange)="onJobTypeChanged()"
+                      >
+
+                      <mat-option *ngFor="let jobtype of jobTypeOptions" [value]="jobtype">
+                        {{ jobtype }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+
+                </div>
+                <div class="col-lg-6">
+
+                  <mat-form-field>
+                    <mat-select placeholder="Job Status" name="status" [(ngModel)]="job.status">
+                      <mat-option *ngFor="let status of jobStatusOptions" [value]="status">
+                        {{ status }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+
+                </div>
+              </div>
+
+              <mat-form-field>
+                <input matInput placeholder="Taken by" 
+                aria-label="Taker" [matAutocomplete]="auto" [formControl]="takerCtrl">
+                <mat-autocomplete #auto="matAutocomplete" 
+                (optionSelected)="selectTaker($event)"
+                [displayWith]="displayUsername.bind(this)"
+                >
+                  <mat-option *ngFor="let taker of filteredTakers | async" [value]="taker.username">
+                    <img *ngIf="taker.picture" style="vertical-align:middle;" 
+                    aria-hidden src="{{ baseUrl + taker.picture}}" height="25" />
+                    <img *ngIf="!taker.picture" style="vertical-align:middle;" 
+                    aria-hidden src="./../../../assets/noavatar.png" height="25" />
+                    <span>{{ taker.first_name }}</span> 
+                    <small>{{taker.last_name }}</small>
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+
+
+              <mat-form-field>
+                <input readonly matInput placeholder="Creation" [value]="jobCreation" name="creation">
+              </mat-form-field>
+
+              <div class="row">
+                <div class="col-lg-6">
+                  <app-datetimepicker
+                    [datetime]="jobStart"
+                    (datetimeChangedEmitter)="onJobStartDatetimeChanged($event)"
+                    label="Start time">
+                  </app-datetimepicker>
+                </div>
+                <div class="col-lg-6">
+                  <app-datetimepicker
+                    [datetime]="jobEnd"
+                    (datetimeChangedEmitter)="onJobEndDatetimeChanged($event)"
+                    label="End time">
+                  </app-datetimepicker>
+                </div>
+              </div>
+
+
+            </div>
+
+            <div class="col-lg-8 col-sm-6 col-xs-12">
+
+
+              <ngb-tabset destroyOnHide="false" >
+                <ngb-tab>
+
+                  <ng-template ngbTabContent>
+
+                    <app-mapview
+                      [options]="mapOptions"
+                      [mapdata]="job.mapdata"
+                      [markerIconsPath]="jobTypeImagePath"
+                      [jobType]="job.job_type"
+                      (mapDataChangedEmitter)="onJobMapDataChanged($event)" >
+                    </app-mapview>
+
+                  </ng-template>
+                  <ng-template ngbTabTitle>
+                    Map
+                  </ng-template>
+
+                </ngb-tab>
+                <ngb-tab>
+                  <ng-template ngbTabContent>
+
+                  <ngb-carousel *ngIf="jobPictures">
+                    <ng-template ngbSlide  *ngFor="let pic of jobPictures" >
+                      <img [src]="pic" width="100%" alt="Random first slide">
+                     
+                    </ng-template>
+                  </ngb-carousel>
+
+
+
+
+
+
+
+
+
+
+
+                  </ng-template>
+                  <ng-template ngbTabTitle>
+                    Images
+                  </ng-template>
+                </ngb-tab>
+              </ngb-tabset>
+
+
+
+
+
+
+
+
+
+            </div>
+          </div>
+
+
+        <mat-card-actions>
+          <button   mat-raised-button class="button-form" style="margin-left: 18px" (click)="save();">SAVE</button>
+        </mat-card-actions>
+
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+<br/>

@@ -1,0 +1,24 @@
+
+.mat-form-field {
+  width: 100%;
+}
+
+
+.button-form{
+  background-color: #25AAE1;
+  color: white;
+}
+
+.button-form:hover{
+  background-color: #1A6B84;
+}
+
+
+ngb-tabset {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.carousel {
+  min-height: 200px;
+}
